@@ -1,0 +1,23 @@
+aether-gaming-companion/
+├── .github/
+│   └── workflows/
+│       └── build.yml
+├── src/
+│   ├── index.html
+│   ├── main.js
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── README.md
+│   ├── .gitignore
+│   ├── LICENSE
+│   └── build/
+│       └── icon.ico
+├── docs/
+│   ├── screenshots/
+│   │   ├── dashboard.png
+│   │   └── recording.png
+│   └── API.md
+└── .github/
+    └── ISSUE_TEMPLATE/
+        ├── bug_report.md
+        └── feature_request.md
