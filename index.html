@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHER | Gaming Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f0f1a;
+            --bg-secondary: #1a1a2e;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --card-bg: rgba(26, 26, 46, 0.8);
+            --border-color: rgba(255, 255, 255, 0.05);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent: #8b5cf6;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--gradient-1);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Bento Grid */
+        .bento-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .bento-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Recording Controls */
+        .recording-controls {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .record-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 1rem;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--gradient-2);
+            color: white;
+        }
+
+        .record-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Status Pulse */
+        .status-pulse {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 100px;
+            background: rgba(0,0,0,0.3);
+            width: fit-content;
+        }
+
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff4444;
+        }
+
+        .pulse-dot.active {
+            background: #44ff44;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(68, 255, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(68, 255, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(68, 255, 68, 0); }
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Recordings List */
+        .recordings-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .recording-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .recording-item:hover {
+            transform: translateX(5px);
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .bento-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">✨</span>
+                <span>AETHER</span>
+            </div>
+            <div class="nav-links">
+                <a class="nav-link" onclick="scrollToSection('home')">Home</a>
+                <a class="nav-link" onclick="scrollToSection('dashboard')">Dashboard</a>
+                <button class="btn btn-primary" id="authBtn">Launch App</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="badge">✨ Next-Gen Gaming Companion</div>
+            <h1>Elevate Your Gaming Experience</h1>
+            <p>Automatic recording, AI-powered analytics, and cloud storage for competitive gamers</p>
+            <button class="btn btn-primary" id="getStartedBtn">Get Started Free</button>
+        </div>
+    </section>
+
+    <div class="bento-section" id="dashboard">
+        <h2 class="section-title">Command Center</h2>
+        <p class="section-subtitle">Everything you need to dominate your gameplay</p>
+        
+        <div class="bento-grid">
+            <div class="bento-card">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <h3>System Status</h3>
+                    <div class="status-pulse" id="statusIndicator">
+                        <div class="pulse-dot"></div>
+                        <span>Offline</span>
+                    </div>
+                </div>
+                <div id="matchStatus">Ready to record</div>
+                <div class="progress-container" id="uploadProgress" style="display: none;">
+                    <div class="progress-fill" id="uploadFill"></div>
+                </div>
+            </div>
+
+            <div class="bento-card">
+                <h3>Live Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="kills">0</div>
+                        <div>Kills</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="deaths">0</div>
+                        <div>Deaths</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="assists">0</div>
+                        <div>Assists</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bento-card">
+                <h3>Recording Controls</h3>
+                <div class="recording-controls">
+                    <button class="record-btn" id="startBtn" disabled>🎬 Start</button>
+                    <button class="record-btn" id="stopBtn" disabled>⏹️ Stop</button>
+                </div>
+                <p style="font-size: 0.85rem;">⚡ Auto-recording on match detection</p>
+            </div>
+
+            <div class="bento-card">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <h3>Recent Sessions</h3>
+                    <button class="btn-primary" id="refreshBtn" style="padding: 5px 12px;">⟳</button>
+                </div>
+                <div class="recordings-list" id="recordingsList">
+                    <div style="text-align: center; padding: 2rem;">No recordings yet</div>
+                </div>
+            </div>
+
+            <div class="bento-card">
+                <h3>Career Analytics</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalMatches">0</div>
+                        <div>Matches</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalKills">0</div>
+                        <div>Total Kills</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="kdRatio">0</div>
+                        <div>K/D Ratio</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bento-card">
+                <h3>💡 Pro Tip</h3>
+                <div id="tipText">Enable auto-recording to never miss a clutch moment</div>
+                <button class="btn-primary" id="newTipBtn" style="margin-top: 1rem; padding: 6px 12px;">New Tip</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 AETHER. Made with ❤️ for gamers</p>
+    </footer>
+
+    <div id="authModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 1.5rem;">Welcome to AETHER</h2>
+            <div class="input-group">
+                <input type="email" id="loginEmail" placeholder="Email">
+            </div>
+            <div class="input-group">
+                <input type="password" id="loginPassword" placeholder="Password">
+            </div>
+            <button class="btn btn-primary" id="loginBtn" style="width: 100%;">Launch App</button>
+            <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem;">Demo: demo@aether.gg / aether2026</p>
+        </div>
+    </div>
+
+    <script>
+        let isAuthenticated = false;
+        let isRecording = false;
+        let recordings = [];
+        let matchStats = { kills: 0, deaths: 0, assists: 0 };
+        let tips = [
+            "Enable auto-recording to never miss a clutch moment",
+            "Review your gameplay to identify improvement areas",
+            "Track your K/D ratio to measure progress",
+            "Share highlights with your team for better coordination"
+        ];
+        let currentTip = 0;
+
+        function scrollToSection(section) {
+            document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.style.cssText = `position:fixed;bottom:20px;right:20px;background:#1a1a2e;padding:12px 20px;border-radius:12px;border-left:4px solid #8b5cf6;z-index:3000;animation:slideUp 0.3s ease;`;
+            notif.textContent = message;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+
+        function updateUI() {
+            const statusIndicator = document.getElementById('statusIndicator');
+            const startBtn = document.getElementById('startBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            const matchStatus = document.getElementById('matchStatus');
+            
+            if (isRecording) {
+                statusIndicator.innerHTML = '<div class="pulse-dot active"></div><span>Recording Active</span>';
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                matchStatus.textContent = '🎮 Match in progress - Recording';
+            } else {
+                statusIndicator.innerHTML = '<div class="pulse-dot"></div><span>Standby</span>';
+                startBtn.disabled = !isAuthenticated;
+                stopBtn.disabled = true;
+                matchStatus.textContent = isAuthenticated ? '✅ Ready' : '🔒 Sign in to start';
+            }
+            
+            document.getElementById('authBtn').textContent = isAuthenticated ? '👤 Dashboard' : 'Launch App';
+        }
+
+        function updateMatchStats() {
+            document.getElementById('kills').textContent = matchStats.kills;
+            document.getElementById('deaths').textContent = matchStats.deaths;
+            document.getElementById('assists').textContent = matchStats.assists;
+        }
+
+        function updateCareerStats() {
+            const totalMatches = recordings.length;
+            const totalKills = recordings.reduce((sum, r) => sum + (r.matchStats?.kills || 0), 0);
+            const totalDeaths = recordings.reduce((sum, r) => sum + (r.matchStats?.deaths || 0), 0);
+            const kdRatio = totalDeaths === 0 ? totalKills : (totalKills / totalDeaths).toFixed(2);
+            
+            document.getElementById('totalMatches').textContent = totalMatches;
+            document.getElementById('totalKills').textContent = totalKills;
+            document.getElementById('kdRatio').textContent = kdRatio;
+        }
+
+        function renderRecordings() {
+            const container = document.getElementById('recordingsList');
+            if (recordings.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 2rem;">✨ No recordings yet</div>';
+                return;
+            }
+            
+            container.innerHTML = recordings.map(rec => `
+                <div class="recording-item">
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong>🎬 Match ${new Date(rec.date).toLocaleDateString()}</strong>
+                        <span>${Math.floor(rec.duration)}s</span>
+                    </div>
+                    <div style="font-size: 0.85rem;">K:${rec.matchStats?.kills || 0} D:${rec.matchStats?.deaths || 0}</div>
+                </div>
+            `).join('');
+        }
+
+        async function startRecording() {
+            if (!isAuthenticated) {
+                showNotification('Please sign in first');
+                return;
+            }
+            isRecording = true;
+            updateUI();
+            showNotification('🎬 Recording started!');
+            
+            const interval = setInterval(() => {
+                if (isRecording && Math.random() < 0.3) {
+                    matchStats.kills += Math.floor(Math.random() * 2);
+                    matchStats.deaths += Math.floor(Math.random() * 1);
+                    updateMatchStats();
+                }
+            }, 3000);
+            window.recordingInterval = interval;
+        }
+
+        async function stopRecording() {
+            if (!isRecording) return;
+            clearInterval(window.recordingInterval);
+            
+            const progressContainer = document.getElementById('uploadProgress');
+            const progressFill = document.getElementById('uploadFill');
+            progressContainer.style.display = 'block';
+            
+            for (let i = 0; i <= 100; i += 20) {
+                progressFill.style.width = i + '%';
+                await new Promise(resolve => setTimeout(resolve, 150));
+            }
+            
+            recordings.unshift({
+                id: Date.now(),
+                date: new Date(),
+                duration: Math.floor(Math.random() * 180) + 60,
+                matchStats: { ...matchStats }
+            });
+            
+            renderRecordings();
+            updateCareerStats();
+            matchStats = { kills: 0, deaths: 0, assists: 0 };
+            updateMatchStats();
+            isRecording = false;
+            updateUI();
+            
+            setTimeout(() => {
+                progressContainer.style.display = 'none';
+                progressFill.style.width = '0%';
+            }, 500);
+            
+            showNotification('✅ Recording saved to cloud!');
+        }
+
+        function updateTip() {
+            currentTip = (currentTip + 1) % tips.length;
+            document.getElementById('tipText').textContent = tips[currentTip];
+        }
+
+        // Event Listeners
+        document.getElementById('startBtn').addEventListener('click', startRecording);
+        document.getElementById('stopBtn').addEventListener('click', stopRecording);
+        document.getElementById('refreshBtn').addEventListener('click', () => renderRecordings());
+        document.getElementById('newTipBtn').addEventListener('click', updateTip);
+        
+        document.getElementById('authBtn').addEventListener('click', () => {
+            if (!isAuthenticated) document.getElementById('authModal').style.display = 'flex';
+            else scrollToSection('dashboard');
+        });
+        
+        document.getElementById('getStartedBtn').addEventListener('click', () => {
+            document.getElementById('authModal').style.display = 'flex';
+        });
+        
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            if (email === 'demo@aether.gg' && password === 'aether2026') {
+                isAuthenticated = true;
+                document.getElementById('authModal').style.display = 'none';
+                updateUI();
+                showNotification('Welcome to AETHER!');
+                recordings = [];
+                renderRecordings();
+                updateCareerStats();
+            } else {
+                showNotification('Invalid! Use: demo@aether.gg / aether2026');
+            }
+        });
+        
+        document.getElementById('authModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('authModal')) {
+                document.getElementById('authModal').style.display = 'none';
+            }
+        });
+        
+        // Auto game simulation
+        setInterval(() => {
+            if (isAuthenticated && !isRecording && Math.random() < 0.05) {
+                showNotification('🎮 Match detected! Auto-recording started');
+                startRecording();
+            }
+            if (isRecording && Math.random() < 0.03) {
+                showNotification('🏆 Match ended! Saving...');
+                stopRecording();
+            }
+        }, 10000);
+        
+        setInterval(updateTip, 30000);
+        updateUI();
+    </script>
+</body>
+</html>
